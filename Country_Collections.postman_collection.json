@@ -1,0 +1,404 @@
+{
+	"info": {
+		"_postman_id": "56d8a964-439a-4bcb-957f-f0404af6e59d",
+		"name": "Country_Collections",
+		"description": "Collections of all the countries",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get_By_Country_Name",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://restcountries.eu/rest/v2/name/india",
+					"protocol": "https",
+					"host": [
+						"restcountries",
+						"eu"
+					],
+					"path": [
+						"rest",
+						"v2",
+						"name",
+						"india"
+					]
+				},
+				"description": "This type of request will respond by country name. It can either a native name or partial name."
+			},
+			"response": []
+		},
+		{
+			"name": "Get_All_Countries",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "25bdba0a-b648-47a5-86b5-187a386fb712",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var countryArrayData= pm.response.json();",
+							"console.log(\"Total number of countries = \"+countryArrayData.length); ",
+							"",
+							"pm.test(\"Total country count is 250\", function () {",
+							"   pm.expect(countryArrayData.length).to.equal(250);",
+							"});",
+							"",
+							"pm.environment.set(\"country_capital\", countryArrayData[104].capital);",
+							"pm.environment.set(\"country_name\", countryArrayData[104].name);",
+							"",
+							"console.log(\"Capiptal of \"+pm.environment.get(\"country_name\")+ \" is \" + pm.environment.get(\"country_capital\"));",
+							"",
+							"console.log(\"calling code of india\"+countryArrayData[104].callingCodes)",
+							"",
+							"pm.test(\"Test to check calling codes\", function () {",
+							"    var countryArrayData= pm.response.json();",
+							"    pm.expect(countryArrayData[104].callingCodes).to.eql(['91']);",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://restcountries.eu/rest/v2/all",
+					"protocol": "https",
+					"host": [
+						"restcountries",
+						"eu"
+					],
+					"path": [
+						"rest",
+						"v2",
+						"all"
+					]
+				},
+				"description": "to get the information of all the countries."
+			},
+			"response": []
+		},
+		{
+			"name": "Get_By_Country_Full_Name",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://restcountries.eu/rest/v2/name/{{country_name}}?fullText={{full_text_value}}\n",
+					"protocol": "https",
+					"host": [
+						"restcountries",
+						"eu"
+					],
+					"path": [
+						"rest",
+						"v2",
+						"name",
+						"{{country_name}}"
+					],
+					"query": [
+						{
+							"key": "fullText",
+							"value": "{{full_text_value}}\n"
+						}
+					]
+				},
+				"description": "we can validate the response by giving query parameters like fulltext=true. It means that it will get response only if we give full name of the country. But if we give false then it get the response whereever the given name exists."
+			},
+			"response": []
+		},
+		{
+			"name": "Get_By_Country_Code",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://restcountries.eu/rest/v2/alpha/ala",
+					"protocol": "https",
+					"host": [
+						"restcountries",
+						"eu"
+					],
+					"path": [
+						"rest",
+						"v2",
+						"alpha",
+						"ala"
+					]
+				},
+				"description": "alpha 2 letter\nalpha 3 letter"
+			},
+			"response": []
+		},
+		{
+			"name": "Get by multiple alpha codes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://restcountries.eu/rest/v2/alpha?codes=col;no;ee;in",
+					"protocol": "https",
+					"host": [
+						"restcountries",
+						"eu"
+					],
+					"path": [
+						"rest",
+						"v2",
+						"alpha"
+					],
+					"query": [
+						{
+							"key": "codes",
+							"value": "col;no;ee;in"
+						}
+					]
+				},
+				"description": "passing a query param alpha?codes=col;no;in\nlike that we can give multiple alpha codes to get the information of multiple countries."
+			},
+			"response": []
+		},
+		{
+			"name": "Get by currency codes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://restcountries.eu/rest/v2/currency/cop",
+					"protocol": "https",
+					"host": [
+						"restcountries",
+						"eu"
+					],
+					"path": [
+						"rest",
+						"v2",
+						"currency",
+						"cop"
+					]
+				},
+				"description": "we can pass codes according to ISO standards\ncop\nINR"
+			},
+			"response": []
+		},
+		{
+			"name": "Get by language code",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://restcountries.eu/rest/v2/lang/grn",
+					"protocol": "https",
+					"host": [
+						"restcountries",
+						"eu"
+					],
+					"path": [
+						"rest",
+						"v2",
+						"lang",
+						"grn"
+					]
+				},
+				"description": "give language codes according to ISO standards"
+			},
+			"response": []
+		},
+		{
+			"name": "Get by country capital name",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://restcountries.eu/rest/v2/capital/new delhi",
+					"protocol": "https",
+					"host": [
+						"restcountries",
+						"eu"
+					],
+					"path": [
+						"rest",
+						"v2",
+						"capital",
+						"new delhi"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get by calling code",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d43f7c4c-c25d-4f0b-b27f-ac271028d50b",
+						"exec": [
+							"",
+							"var countryArrayData = pm.response.json();",
+							"pm.environment.set(\"country_name\", countryArrayData[0].name);",
+							"console.log(pm.environment.get(\"country_name\"));",
+							"",
+							"pm.test(\"Test to check calling codes\", function () {",
+							"    pm.expect(countryArrayData[0].callingCodes).to.eql(['91']);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://restcountries.eu/rest/v2/callingcode/91",
+					"protocol": "https",
+					"host": [
+						"restcountries",
+						"eu"
+					],
+					"path": [
+						"rest",
+						"v2",
+						"callingcode",
+						"91"
+					]
+				},
+				"description": "91 is calling code for india"
+			},
+			"response": []
+		},
+		{
+			"name": "Get by region",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3b7a5cb5-06e3-4efb-87b7-57f40bcdff06",
+						"exec": [
+							"var countryArrayData= pm.response.json();",
+							"",
+							"pm.test(\"Total country count is greater than zero\", function () {",
+							"   pm.expect(countryArrayData.length).to.be.above(0)});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://restcountries.eu/rest/v2/region/aSia?fullText=true\n",
+					"protocol": "https",
+					"host": [
+						"restcountries",
+						"eu"
+					],
+					"path": [
+						"rest",
+						"v2",
+						"region",
+						"aSia"
+					],
+					"query": [
+						{
+							"key": "fullText",
+							"value": "true\n"
+						}
+					]
+				},
+				"description": "Search by region: Africa, Americas, Asia, Europe, Oceania\n"
+			},
+			"response": []
+		},
+		{
+			"name": "get by regional block",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://restcountries.eu/rest/v2/regionalbloc/eu",
+					"protocol": "https",
+					"host": [
+						"restcountries",
+						"eu"
+					],
+					"path": [
+						"rest",
+						"v2",
+						"regionalbloc",
+						"eu"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get filtered output by field names",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://restcountries.eu/rest/v2/all?fields=name;capital;currencies\n",
+					"protocol": "https",
+					"host": [
+						"restcountries",
+						"eu"
+					],
+					"path": [
+						"rest",
+						"v2",
+						"all"
+					],
+					"query": [
+						{
+							"key": "fields",
+							"value": "name;capital;currencies\n"
+						}
+					]
+				},
+				"description": "You can filter the output of your request to include only the specified fields.\n"
+			},
+			"response": []
+		},
+		{
+			"name": "Get_By_Country_Name_filtered",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://restcountries.eu/rest/v2/name/{{country_name}}?fields=name;capital\n",
+					"protocol": "https",
+					"host": [
+						"restcountries",
+						"eu"
+					],
+					"path": [
+						"rest",
+						"v2",
+						"name",
+						"{{country_name}}"
+					],
+					"query": [
+						{
+							"key": "fields",
+							"value": "name;capital\n"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
